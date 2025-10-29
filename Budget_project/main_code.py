@@ -2,6 +2,10 @@
 # Categories to budget: total cash, total spent, monthly spending, organize earned cash into saving vs spending vs tithings
 # Structure: overview is total cash/spent
 
+
+#https://github.com/derpacado/Collin-s-Learning-Code.git
+
+
 #long term storage
 import json
 from datetime import date, datetime
@@ -89,19 +93,6 @@ budget = load_budget()
 
 #main menu
 def main_menu():
-    print(f"Main Menu")
-    all_sum(budget)
-    month_summary(budget, current_date.month, current_date.year)
-
-    print(f""" Options:
-          1. View past month info
-          2. Add earning
-          3. Add spending
-          4. Exit
-          """)
-    valid = ["1", "2", "3", "4"]
-    choice = ""
-    
     while True:
         print(f"Main Menu")
         all_sum(budget)
@@ -130,3 +121,6 @@ def main_menu():
             break
 
 main_menu()
+
+
+# make a change - "michael jackson"
