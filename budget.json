@@ -1,0 +1,36 @@
+{
+  "earnings": [
+    {
+      "amount": 100,
+      "source": "job",
+      "date": "2025-10-20"
+    },
+    {
+      "amount": 238,
+      "source": "shawn",
+      "date": "2025-10-24"
+    },
+    {
+      "date": "2025-10-29",
+      "amount": 38,
+      "source": "car"
+    },
+    {
+      "date": "2025-10-29",
+      "amount": 59,
+      "source": "home"
+    }
+  ],
+  "spendings": [
+    {
+      "amount": 34,
+      "category": "gas",
+      "date": "2025-10-20"
+    },
+    {
+      "amount": 42,
+      "category": "fun",
+      "date": "2025-09-29"
+    }
+  ]
+}
