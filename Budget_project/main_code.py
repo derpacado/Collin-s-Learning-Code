@@ -10,6 +10,7 @@
 import json
 from datetime import date, datetime
 current_date = date.today()
+import sys
 
 #loading history
 def load_budget(file_path = "budget.json"):
@@ -63,9 +64,10 @@ Summary for the {month}/{year} month.
     Total spent: ${spend_tot}""")
 
     #calc and print spending breakdown
-    for spend in spendings:
-        percent = (spend["amount"] / earn_tot * 100) if earn_tot > 0 else 0
-        print(f"        {percent:.2f}% (${spend['amount']}) in category {spend['category']}.")
+    if spendings:  
+        for spend in spendings:
+            percent = (spend["amount"] / earn_tot * 100) if earn_tot > 0 else 0
+            print(f"        {percent:.2f}% (${spend['amount']}) in category {spend['category']}.")
     
     #list budget numbers
     print(f"""
@@ -88,39 +90,83 @@ def all_sum(budget):
     Total Spent: ${spend_tot}
     Net Earned: ${net}
 """)
+    
+def back_or_exit():
+    print("""
+Options
+1. Back to main menu
+2. Exit""")
+    choice=input("Choose an option: ").strip()
+    if choice=="1":
+        main_menu(budget)
+    elif choice=="2":
+        print("Exiting...")
+        sys.exit()
+    else:
+        print("Invalid, try again.")
+        back_or_exit()
 
-budget = load_budget()
+
+
 
 #main menu
-def main_menu():
+def main_menu(budget):
+    # show summary only once per loop iteration   
+    print("\n=== Main Menu ===")
+    all_sum(budget)
+    month_summary(budget, current_date.month, current_date.year)
+
+    print("""
+Options:
+    1. View past month info
+    2. Add earning
+    3. Add spending
+    4. Exit
+""")
     while True:
-        print(f"Main Menu")
-        all_sum(budget)
-        month_summary(budget, current_date.month, current_date.year)
+        choice=input("Choose option:").strip()
+        if choice=="1":
+            view_past_month()
+        elif choice=="2":
+            add_earning()
+        elif choice=="3":
+            add_spending()
+        elif choice=="4":
+            print("Exiting...")
+            sys.exit()
+        else:
+            print("""
+Invalid response, try again.""")
 
-        print(f""" Options:
-            1. View past month info
-            2. Add earning
-            3. Add spending
-            4. Exit
-            """)
-        valid = ["1", "2", "3", "4"]
-        choice = ""
-        while choice not in valid:
-            choice = input()
-        if choice == "2":
-            print("Choose date (yyyy-mm-dd):")
-            d=input()
-            #d = datetime.strptime(d, "%Y-%m-%d").date()
-            print("Choose amount:")
-            amount=int(input())
-            print("Choose source:")
-            source=input()
-            add_earn(d, amount, source)
-        if choice == "4":
-            break
+#specific call for ui to view past month from terminal input
+def view_past_month():
+    print("\nViewing past month data.")
+    month = int(input("Enter month (1–12): ").strip())
+    year = int(input("Enter year (YYYY): ").strip())
+    month_summary(budget, month, year)
+    back_or_exit()
 
-main_menu()
+#specific call for ui to add earning from terminal input
+def add_earning():
+    print("\nAdding earning:")
+    d = input("Enter date (YYYY-MM-DD): ").strip()
+    amount = float(input("Enter amount: ").strip())
+    source = input("Enter source: ").strip()
+    add_earn(d, amount, source)
+    back_or_exit()
+
+def add_spending():
+    print("\nAdding spending:")
+    d = input("Enter date (YYYY-MM-DD): ").strip()
+    amount = float(input("Enter amount: ").strip())
+    category = input("Enter category: ").strip()
+    add_spend(d, amount, category)
+    back_or_exit()
+
+ 
+
+budget = load_budget()
+main_menu(budget)
 
 
 # make a change - "michael jackson"
